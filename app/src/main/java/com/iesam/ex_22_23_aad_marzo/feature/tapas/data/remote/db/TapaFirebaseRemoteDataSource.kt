@@ -12,25 +12,18 @@ class TapaFirebaseRemoteDataSource {
     val db = Firebase.database
 
 
-    suspend fun getTapas(): List<Tapa>{
-        db.getReference("tapa").get().await().children.map {
-            it.getValue(TapaFirebaseModel::class.java)
-        }
-        return
-    }
+    suspend fun getTapas(): List<Tapa> {
 
+        val establishment = db.getReference("establishment").get().await()
+            .getValue(EstablishmentFirebaseModel::class.java)!!.toDomain()
 
-    suspend fun getEstablishment(): Establishment{
-        db.getReference("establishment").get().await().children.map {
-            it.getValue(Establishment::class.java,)
+        val photos = db.getReference("photoTapas").get().await().children.map {
+            it.getValue(PhotoTapasFirebaseModel::class.java)!!.toDomain()
         }
-        return
-    }
 
-    suspend fun getPhotoTapas(): List<PhotoTapas>{
-        db.getReference("photoTapas").get().await().children.map {
-            it.getValue(PhotoTapasFirebaseModel::class.java)
+        return db.getReference("tapa").get().await().children.map {
+            it.getValue(TapaFirebaseModel::class.java)!!.toDomain(establishment, photos)
         }
-        return
+
     }
 }
