@@ -57,5 +57,4 @@ class AnimalsRoomDataSource(context: Context) {
             it.toDomain()
         }
     }
-
 }
