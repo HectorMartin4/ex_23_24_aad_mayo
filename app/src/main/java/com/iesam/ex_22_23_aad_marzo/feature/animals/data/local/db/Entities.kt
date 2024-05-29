@@ -13,7 +13,7 @@ data class AnimalEntity(
     @ColumnInfo("animalBreedCountry") val breedCountry: String,
 )
 
-@Entity(tableName = "animal_type")
+@Entity(tableName = "animalType")
 data class AnimalTypeEntity(
     @PrimaryKey @ColumnInfo("id") val id: Int,
     @ColumnInfo("type") val type: String)

@@ -9,7 +9,7 @@ import com.iesam.ex_22_23_aad_marzo.feature.animals.data.local.db.AnimalTypeEnti
 
 @Database(
     entities = [AnimalEntity::class, AnimalBreedEntity::class, AnimalTypeEntity::class],
-    version = 1
+    version = 2
 )
 abstract class AppDatabase : RoomDatabase() {
 
