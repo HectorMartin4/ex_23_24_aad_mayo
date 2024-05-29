@@ -10,6 +10,9 @@ import com.iesam.ex_22_23_aad_marzo.feature.tapas.data.TapaDataRepository
 import com.iesam.ex_22_23_aad_marzo.feature.tapas.data.remote.db.TapaFirebaseRemoteDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import com.iesam.ex_22_23_aad_marzo.feature.animals.data.AnimalDataRepository
+import com.iesam.ex_22_23_aad_marzo.feature.animals.data.local.db.AnimalsRoomDataSource
+import com.iesam.ex_22_23_aad_marzo.feature.animals.data.remote.AnimalRemoteDataSource
 import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
@@ -43,19 +46,29 @@ class MainActivity : AppCompatActivity() {
 
     private fun initAnimals() {
         thread {
-            //Ejecutar código para obtener animales
+            val repository = AnimalDataRepository(AnimalsRoomDataSource(this), AnimalRemoteDataSource())
+
+            val animalData = repository.getAnimals()
+
+            Log.d("dev", "Data: $animalData")
         }
     }
 
     private fun initAnimalBreed() {
         thread {
-            //Ejecutar código para obtener todas razas almacenadas en la base de datos (sin repetir)
+            val repository = AnimalDataRepository(AnimalsRoomDataSource(this), AnimalRemoteDataSource())
+
+            val animalData = repository.getAnimalBreed()
+
+            Log.d("dev", "Data: $animalData")
         }
     }
 
     private fun deleteAnimals() {
         thread {
-            //Elimino los animales de local..
+            val repository = AnimalDataRepository(AnimalsRoomDataSource(this), AnimalRemoteDataSource())
+
+            repository.deleteAnimals()
         }
     }
 
