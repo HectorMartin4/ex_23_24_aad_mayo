@@ -4,7 +4,12 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.iesam.ex_22_23_aad_marzo.R
+import com.iesam.ex_22_23_aad_marzo.feature.tapas.data.TapaDataRepository
+import com.iesam.ex_22_23_aad_marzo.feature.tapas.data.remote.db.TapaFirebaseRemoteDataSource
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import com.iesam.ex_22_23_aad_marzo.feature.animals.data.AnimalDataRepository
 import com.iesam.ex_22_23_aad_marzo.feature.animals.data.local.db.AnimalsRoomDataSource
 import com.iesam.ex_22_23_aad_marzo.feature.animals.data.remote.AnimalRemoteDataSource
@@ -69,7 +74,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun initTapas() {
         thread {
-            //Hacer la llamada al repositorio desde aquí.
+            val repository = TapaDataRepository(TapaFirebaseRemoteDataSource())
+
+            lifecycleScope.launch(Dispatchers.IO) {
+                val datos = repository.getTapas()
+
+                Log.d("dev", "Datos Firebase: $datos")
+            }
         }
     }
 }
