@@ -1,9 +1,14 @@
 package com.iesam.ex_22_23_aad_marzo.feature
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.iesam.ex_22_23_aad_marzo.R
+import com.iesam.ex_22_23_aad_marzo.feature.tapas.data.TapaDataRepository
+import com.iesam.ex_22_23_aad_marzo.feature.tapas.data.remote.db.TapaFirebaseRemoteDataSource
+import kotlinx.coroutines.launch
 import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
@@ -55,7 +60,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun initTapas() {
         thread {
-            //Hacer la llamada al repositorio desde aquí.
+            val repository = TapaDataRepository(TapaFirebaseRemoteDataSource())
+
+            lifecycleScope.launch {
+                val datos = repository.getTapas()
+
+                Log.d("dev", "Datos Firebase: $datos")
+            }
         }
     }
 }
